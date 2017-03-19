@@ -2,7 +2,7 @@
 #include <vector>
 #include <cstdint>
 #include <map>
-
+#include <bitset>
 namespace one {
 
     class Uint32_t
@@ -29,12 +29,14 @@ namespace one {
                 uint32_t mask = 0;
                 int32_t count = 0;
 
-                while (number != 0)
+                while (number != 0 && count < 32)
                 {
                     mask = number & ~(number - 1);
+                    std::cout << "number = "<< std::bitset<32>(number) << std::endl;
+                    std::cout << "mask = " << std::bitset<32>(mask) << std::endl;
                     ones.push_back(Uint32_t::MASK_TO_POS[mask]);
                     count ++;
-                    number |= ~mask;
+                    number &= ~mask;
                 }
 
                 return count;
@@ -96,6 +98,7 @@ namespace one {
 
 int main()
 {
+    std::cout <<__FILE__<< ":"<<__FUNCTION__ << std::endl;
     one::Uint32_t number(0b01011001);
     std::vector<::uint32_t> ones;
     std::cout << "Number of ones:" << number.get_ones(ones) << std::endl;
